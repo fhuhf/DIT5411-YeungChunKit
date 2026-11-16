@@ -1,0 +1,36 @@
+data_dir: data/cleaned_data
+output_dir: runs
+
+model: residual_cnn
+image_size: 64
+
+# RTX 5070 Ti settings
+batch_size: 128
+epochs: 40
+patience: 8
+learning_rate: 0.0005
+
+seed: 250276567
+train_per_class: 40
+val_ratio: 0.10
+target_samples_per_class: 200
+
+max_classes: null
+classes_file: null
+weights: none
+freeze_base: false
+
+cache: ""
+shuffle_buffer: 16384
+cpu_threads: 10
+initial_weights: null
+run_name: residual_cnn_5070ti
+
+augmentation:
+  rotation_degrees: 10
+  translation: 0.08
+  zoom: 0.10
+  scale: 0.08
+  shear_x: 0.15
+  shear_y: 0.08
+  clean_probability: 0.30
