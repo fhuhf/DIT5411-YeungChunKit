@@ -1,10 +1,7 @@
 # DIT5411 Traditional Chinese Handwriting Recognition
 
-## Student Information
 
-- Student name: Yeung Chun Kit
-- Student ID: 250276567
-- Course: DIT5411
+
 
 ## Project Description
 
