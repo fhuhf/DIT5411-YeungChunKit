@@ -44,11 +44,15 @@ The training images are augmented using:
 
 Augmentation is applied only to the training set. It generates variations of the original handwriting and helps the model recognise different writing styles.
 
-## Residual CNN Model
+## AI Models
 
-The Residual CNN contains a convolutional stem followed by residual blocks with 32, 64, and 128 filters. Shortcut connections allow information to pass across convolutional layers and help preserve important stroke features.
+### 1. Custom CNN
 
-After the residual blocks, the model uses global average pooling, a dense layer with 512 units, dropout, and a final softmax layer for 4,803 character classes.
+The Custom CNN is a baseline convolutional neural network with multiple convolution, activation, pooling, dropout, and dense layers. The new experiment has 7,056,169 parameters and a 13,065-neuron output layer, with one output for each character class.
+
+### 2. Residual CNN
+
+The Residual CNN uses shortcut connections between convolutional layers. These connections help preserve stroke features and improve gradient flow through deeper layers. The completed earlier experiment has 2,838,115 parameters and 4,803 output classes.
 
 ### Model Size
 
@@ -83,6 +87,15 @@ After the residual blocks, the model uses global average pooling, a dense layer 
 | Final validation accuracy | 2.77% |
 | Final validation loss | 38.0095 |
 
+### Custom CNN experiment
+
+- Framework: TensorFlow
+- GPU: NVIDIA GeForce RTX 5070 Ti
+- Image size: 64 x 64
+- Classes: 13,065
+- Epochs completed: 15
+- Parameters: 7,056,169
+
 Training accuracy increased steadily from 11.03% to 94.08%, while training loss decreased from 5.1305 to 0.1913. The best validation result occurred at epoch 12, where validation accuracy reached 82.90% and validation loss fell to 0.7679.
 
 However, validation performance was highly unstable. Validation accuracy dropped to 2.77% by the final epoch even though training accuracy continued to improve. This large difference suggests overfitting, an unstable validation pipeline, or a possible issue with validation labels, class ordering, batch-normalisation statistics, or dataset size. The checkpoint from epoch 12 should be used instead of the final epoch model.
@@ -91,10 +104,14 @@ However, validation performance was highly unstable. Validation accuracy dropped
 
 The saved best Residual CNN model was evaluated on the held-out test set. The evaluation processed 58,759 test images and produced the following results:
 
-| Model | Test accuracy | Top-5 test accuracy | Parameters | Test images |
-|---|---:|---:|---:|---:|
-| Residual CNN | **82.91%** | **95.92%** | 2,838,115 | 58,759 |
+## Test Results
 
+| Model | Classes | Image size | Parameters | Epochs | Test accuracy | Top-5 accuracy | Device |
+|---|---:|---:|---:|---:|---:|---:|---|
+| Custom CNN | 13,065 | 64 x 64 | 7,056,169 | 5 | **0.0141%** | **0.0880%** | GPU |
+| Residual CNN | 4,803 | 64 x 64 | 2,838,115 | 15 | **82.91%** | **95.92%** | GPU |
+
+### Exact Residual CNN Evaluation Values
 - Exact test accuracy: `0.829149603843689`
 - Exact top-5 test accuracy: `0.959206223487854`
 - Top-k value: `5`
@@ -106,6 +123,17 @@ The saved best Residual CNN model was evaluated on the held-out test set. The ev
 - Training images: `172,763`
 - Epochs requested/trained: `15/15`
 - Training repeats: `5`
+
+- ### Exact Custom CNN Evaluation Values
+
+- Test accuracy: `0.00014149492199067026`
+- Top-5 test accuracy: `0.000879729341249913`
+- Top-k value: `5`
+- Number of classes: `13,065`
+- Parameters: `7,056,169`
+- Epochs trained: `15`
+- Device: `GPU (/physical_device:GPU:0)`
+- Run directory: `runs/custom_cnn/rtx5070ti_custom_cnn`
 
 The **82.91% test accuracy** means that the correct Chinese character was the model's first prediction for approximately 82.91% of the held-out test images. The **95.92% top-5 accuracy** means that the correct character appeared among the model's five highest-probability predictions for approximately 95.92% of the test images.
 
@@ -158,10 +186,13 @@ The training or evaluation process may produce:
 - `training_curves.png`: training and validation curves
 - `metrics.json`: test-set evaluation results
 - `comparison.csv`: comparison results for multiple models
+-comparison.md
+-comparison.csv
+-comparison.png
 
 ## Current Conclusion
 
-The Residual CNN achieved **82.91% test accuracy** and **95.92% top-5 test accuracy** across **58,759 held-out test images** from **4,803 character classes**. The difference between top-1 and top-5 accuracy shows that many incorrect first predictions still placed the correct character among the five most likely choices. These figures are test-set results from `metrics.json`, not training or validation accuracy.
+The Residual CNN achieved **82.91% test accuracy** and **95.92% top-5 test accuracy** across **58,759 held-out test images** from **4,803 character classes**. Also The Custom CNN now satisfies the required 13,065 output classes, but the current 15-epoch test result is not yet suitable as the final recognition model.The difference between top-1 and top-5 accuracy shows that many incorrect first predictions still placed the correct character among the five most likely choices. These figures are test-set results from `metrics.json`, not training or validation accuracy.
 ## References
 
 Add the dataset source, TensorFlow documentation, Keras documentation, and the source used to explain residual neural networks.
