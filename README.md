@@ -108,7 +108,7 @@ The saved best Residual CNN model was evaluated on the held-out test set. The ev
 
 | Model | Classes | Image size | Parameters | Epochs | Test accuracy | Top-5 accuracy | Device |
 |---|---:|---:|---:|---:|---:|---:|---|
-| Custom CNN | 13,065 | 64 x 64 | 7,056,169 | 5 | **0.0141%** | **0.0880%** | GPU |
+| Custom CNN | 13,065 | 64 x 64 | 7,056,169 | 15 | **0.0141%** | **0.0880%** | GPU |
 | Residual CNN | 4,803 | 64 x 64 | 2,838,115 | 15 | **82.91%** | **95.92%** | GPU |
 
 ### Exact Residual CNN Evaluation Values
